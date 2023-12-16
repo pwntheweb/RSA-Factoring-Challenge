@@ -1,22 +1,30 @@
 #!/usr/bin/python3
-import sympy
+
 import sys
-import time
 
 
-def factorize_prime(number):
-    start_time = time.time()
-    p, q = sympy.ntheory.factorint(number, limit=10**6).keys()
-    end_time = time.time()
+def fc():
+    """
+    function fc to search file to convert number and format n=p*q
+    """
+    try:
+        revfile = sys.argv[1]
+        with open(revfile) as f:
+            for revnumber in f:
+                revnumber = int(revnumber)
+                if revnumber % 2 == 0:
+                        print("{}={}*{}".format(revnumber, revnumber // 2, 2))
+                        continue
+                i = 3
+                while i < revnumber // 2:
+                    if revnumber % i == 0:
+                        print("{}={}*{}".format(revnumber, revnumber // i, i))
+                        break
+                    i = i + 2
+                if i == (revnumber // 2) + 1:
+                    print("{}={}*{}".format(revnumber, revnumber, 1))
+    except (IndexError):
+        pass
 
-    print(f"{number}={p}*{q}")
-    print(f"Time taken: {end_time - start_time} seconds")
 
-
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: prime_factors <number>")
-        sys.exit(1)
-
-    number = int(sys.argv[1])
-    factorize_prime(number)
+fc()
